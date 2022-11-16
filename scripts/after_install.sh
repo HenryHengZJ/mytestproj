@@ -1,5 +1,6 @@
 #!/bin/bash
 sudo apt-get update
+
 curl -sL https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh -o install_nvm.sh
 bash install_nvm.sh
 export NVM_DIR="$HOME/.nvm"
@@ -8,7 +9,9 @@ export NVM_DIR="$HOME/.nvm"
 . ~/.nvm/nvm.sh
 nvm install --lts
 nvm --version
-node -v
+
+sudo apt-get install nodejs
+sudo apt-get install npm
 
 npm install --location=global yarn
 yarn global add pm2
