@@ -239,10 +239,6 @@ Resources:
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
-              - Effect: "Allow"
-                Action: 
-                - "s3:getObject"
-                Resource: !Sub arn:${AWS::Partition}:s3:::${WebappDeploymentBucket}/*
               - Effect: Allow
                 Action:
                 - 'ssm:GetParameter*'
@@ -287,10 +283,6 @@ Resources:
                 - 'codedeploy:List*'
                 Resource:
                   - !Sub 'arn:${AWS::Partition}:codedeploy:*:${AWS::AccountId}:*'
-              - Effect: Allow
-                Action:
-                - 's3:putObject'
-                Resource: !Sub arn:${AWS::Partition}:s3:::${WebappDeploymentBucket}/*                  
 
   WebappApplication:
     Type: AWS::CodeDeploy::Application
@@ -338,18 +330,6 @@ Resources:
       SecurityGroupEgress:
       - IpProtocol: '-1'
         CidrIp: 0.0.0.0/0      
-  WebappDeploymentBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketEncryption:
-        ServerSideEncryptionConfiguration:
-          - ServerSideEncryptionByDefault:
-              SSEAlgorithm: AES256   
-      PublicAccessBlockConfiguration:
-        BlockPublicAcls: true
-        BlockPublicPolicy: true
-        IgnorePublicAcls: true
-        RestrictPublicBuckets: true
   CodeDeployRole:
     Type: AWS::IAM::Role
     Properties:
@@ -487,9 +467,6 @@ Outputs:
   DeploymentGroup:
     Description: Webapp Deployment Group
     Value: !Ref WebappDeploymentGroup
-  DeploymentBucket:
-    Description: Deployment bucket
-    Value: !Ref WebappDeploymentBucket
   ApplicationName:
     Description: CodeDeploy Application name
     Value: !Ref WebappApplication
